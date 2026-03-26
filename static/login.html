@@ -181,15 +181,14 @@
         <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
           <div class="form-group">
             <label class="form-label" for="login-email">Email Address</label>
-            <input id="login-email" class="form-input" type="email" placeholder="alex@example.com" required />
+            <input id="login-email" class="form-input" type="email" required />
           </div>
           <div class="form-group">
             <div class="form-password-row">
               <label class="form-label" for="login-password">Password</label>
-              <a href="#" class="forgot-link">Forgot password?</a>
             </div>
-            <input id="login-password" class="form-input" type="password" placeholder="••••••••" required />
-            <div class="form-helper">Password must be at least 8 characters</div>
+            <input id="login-password" class="form-input" type="password" required />
+            <a href="#" class="forgot-link">Forgot password?</a>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Sign In →</button>
           <div class="auth-switch">Don't have an account? <a href="#" onclick="switchTab('signup'); return false;">Create account</a></div>
@@ -200,16 +199,16 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="signup-fname">First Name</label>
-              <input id="signup-fname" class="form-input" type="text" placeholder="Alex" required />
+              <input id="signup-fname" class="form-input" type="text" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="signup-lname">Last Name</label>
-              <input id="signup-lname" class="form-input" type="text" placeholder="Strathmore" required />
+              <input id="signup-lname" class="form-input" type="text" required />
             </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="signup-email">Email Address</label>
-            <input id="signup-email" class="form-input" type="email" placeholder="alex@example.com" required />
+            <input id="signup-email" class="form-input" type="email" required />
           </div>
           <div class="form-group">
             <label class="form-label">I am a...</label>
@@ -229,7 +228,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="signup-password">Password</label>
-            <input id="signup-password" class="form-input" type="password" placeholder="Create a strong password" required minlength="6" />
+            <input id="signup-password" class="form-input" type="password" required minlength="6" />
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Create Account →</button>
           <div class="auth-switch">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a></div>
@@ -239,7 +238,7 @@
         <form id="form-otp" class="auth-form" onsubmit="handleVerifyOTP(event)">
           <div class="form-group">
             <label class="form-label" for="otp-code">Verification Code</label>
-            <input id="otp-code" class="form-input" type="text" placeholder="Enter 6-digit OTP" required maxlength="6" style="letter-spacing: 0.5em; text-align: center; font-size: 1.5rem; font-weight: 700;" />
+            <input id="otp-code" class="form-input" type="text" required maxlength="6" style="letter-spacing: 0.5em; text-align: center; font-size: 1.5rem; font-weight: 700;" />
             <div class="form-helper" style="text-align: center;">We sent a code to your email.</div>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Verify & Continue →</button>

@@ -116,11 +116,11 @@
         <div class="profile-identity">
           <div>
             <div class="profile-avatar-wrap">
-              <div class="profile-avatar">AS</div>
+              <div class="profile-avatar" id="avatar-initials">AS</div>
               <div class="profile-online"></div>
             </div>
-            <div class="profile-name">Alex Strathmore</div>
-            <div class="profile-title-row">
+            <div class="profile-name" id="profile-name">Alex Strathmore</div>
+            <div class="profile-title-row" id="profile-roles-container">
               <span class="chip chip-primary">Principal Designer</span>
               <span class="chip">Lead UX Strategist</span>
               <span class="chip">Interface Engineer</span>
@@ -261,5 +261,50 @@
     </main>
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem('tjc_token');
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      try {
+        const res = await fetch('/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          const fullName = `${data.first_name} ${data.last_name}`;
+          const initials = `${data.first_name.charAt(0)}${data.last_name.charAt(0)}`.toUpperCase();
+          
+          document.getElementById('profile-name').textContent = fullName;
+          document.getElementById('avatar-initials').textContent = initials;
+          
+          const rolesContainer = document.getElementById('profile-roles-container');
+          rolesContainer.innerHTML = `
+            <span class="chip chip-primary">${data.role === 'employer' ? 'Employer' : 'Job Seeker'}</span>
+            <span class="chip">${data.email}</span>
+          `;
+        } else {
+          localStorage.removeItem('tjc_token');
+          window.location.href = '/login.html';
+        }
+      } catch (err) {
+        console.error(err);
+      }
+      
+      // Handle sign out button
+      document.querySelector('a.btn-ghost').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('tjc_token');
+        window.location.href = '/login.html';
+      });
+    });
+  </script>
 </body>
 </html>
