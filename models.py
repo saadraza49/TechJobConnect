@@ -8,11 +8,24 @@ from datetime import datetime
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     password_hash = Column(String, nullable=False)
-    role = Column(Enum("job_seeker", "employer", name="user_roles"), nullable=False)
+    role = Column(String, nullable=False)
     profile = relationship("UserProfile", back_populates="user", uselist=False)
+
+class OTP(Base):
+    __tablename__ = "otps"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    otp_code = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    role = Column(String, nullable=False)
+    password_hash = Column(String, nullable=False)
 
 class UserProfile(Base):
     __tablename__ = "user_profiles"
