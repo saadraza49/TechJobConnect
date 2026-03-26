@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply | TechJobConnect</title>
+  <meta name="description" content="Apply to Senior Product Designer @ GlobalTech Systems on TechJobConnect." />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    body { background: var(--surface-container-low); }
+
+    .apply-layout { display:grid; grid-template-columns:1fr 1fr; gap:0; min-height:calc(100vh - 64px); }
+
+    /* Job Info Panel */
+    .job-info-panel {
+      background: var(--surface-container-lowest);
+      border-right: 1px solid rgba(172,179,183,0.12);
+      padding: var(--sp-12) var(--sp-10);
+      overflow-y:auto;
+    }
+    .job-co-badge { display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-6); }
+    .job-co-logo { width:56px; height:56px; border-radius: var(--radius-lg); background:var(--gradient-primary); display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:#fff; font-weight:800; font-family:var(--font-headline); }
+    .job-co-name { font-weight:700; font-size:var(--title-sm); color:var(--on-surface); }
+    .job-co-meta { font-size:var(--body-sm); color:var(--on-surface-variant); margin-top:2px; }
+    .job-title { font-family:var(--font-headline); font-weight:800; font-size:var(--headline-md); color:var(--on-surface); line-height:1.15; margin-bottom:var(--sp-4); }
+    .job-headline { font-size:var(--body-md); color:var(--on-surface-variant); line-height:1.7; margin-bottom:var(--sp-6); }
+    .job-meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4); margin-bottom:var(--sp-6); }
+    .job-meta-item { background:var(--surface-container-low); border-radius:var(--radius-lg); padding:var(--sp-4); }
+    .job-meta-label { font-size:var(--label-md); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--on-surface-variant); margin-bottom:var(--sp-1); }
+    .job-meta-value { font-size:var(--body-md); font-weight:600; color:var(--on-surface); }
+    .job-section-title { font-family:var(--font-headline); font-weight:700; font-size:var(--title-sm); color:var(--on-surface); margin-bottom:var(--sp-3); margin-top:var(--sp-6); }
+    .job-req-list { display:flex; flex-direction:column; gap:var(--sp-2); }
+    .job-req-item { display:flex; align-items:flex-start; gap:var(--sp-3); font-size:var(--body-sm); color:var(--on-surface-variant); line-height:1.5; }
+    .job-req-dot { width:6px; height:6px; border-radius:50%; background:var(--primary); flex-shrink:0; margin-top:6px; }
+    .salary-display { background:var(--surface-container-low); border-radius:var(--radius-xl); padding:var(--sp-5); margin-top:var(--sp-6); }
+    .salary-display-label { font-size:var(--label-md); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--on-surface-variant); margin-bottom:var(--sp-3); }
+    .salary-display-value { font-family:var(--font-headline); font-weight:800; font-size:var(--headline-sm); color:var(--on-surface); margin-bottom:var(--sp-3); }
+
+    /* Application Form Panel */
+    .apply-form-panel { padding: var(--sp-12) var(--sp-10); overflow-y:auto; background:var(--surface); }
+    .apply-form-header { margin-bottom:var(--sp-8); }
+    .apply-form-title { font-family:var(--font-headline); font-weight:800; font-size:var(--headline-sm); color:var(--on-surface); }
+    .apply-form-sub { font-size:var(--body-md); color:var(--on-surface-variant); margin-top:var(--sp-2); }
+    .apply-form { display:flex; flex-direction:column; gap:var(--sp-6); }
+    .salary-input-group { position:relative; }
+    .salary-currency { position:absolute; left:var(--sp-4); top:50%; transform:translateY(-50%); font-weight:600; color:var(--on-surface-variant); }
+    .salary-input { padding-left:2.5rem !important; }
+    .submit-section { background:var(--surface-container-low); border-radius:var(--radius-xl); padding:var(--sp-5); }
+    .submit-notice { font-size:var(--body-sm); color:var(--on-surface-variant); margin-bottom:var(--sp-4); line-height:1.6; }
+    .submit-notice a { color:var(--primary); }
+    .apply-progress { margin-bottom:var(--sp-8); }
+    .apply-progress-label { font-size:var(--body-sm); font-weight:600; color:var(--on-surface-variant); margin-bottom:var(--sp-2); }
+    .apply-autofill { display:flex; align-items:center; gap:var(--sp-3); background:rgba(0,85,215,0.06); border-radius:var(--radius-lg); padding:var(--sp-4); margin-bottom:var(--sp-6); }
+    .apply-autofill-text { font-size:var(--body-sm); color:var(--on-surface); flex:1; }
+    .apply-autofill-text strong { color:var(--primary); }
+  </style>
+</head>
+<body>
+
+  <header class="glass-nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo">Tech<span>Connect</span></a>
+      <nav class="nav-links">
+        <a href="/dashboard-seeker.html"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">arrow_back</span> Back to Jobs</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="/profile.html" class="btn btn-ghost btn-sm">My Profile</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="apply-layout">
+
+    <!-- Left: Job Info -->
+    <aside class="job-info-panel">
+      <div class="job-co-badge">
+        <div class="job-co-logo">GT</div>
+        <div>
+          <div class="job-co-name">GlobalTech Systems</div>
+          <div class="job-co-meta">San Francisco, CA · Series D · 1,200 employees</div>
+        </div>
+      </div>
+
+      <h1 class="job-title">Senior Product Designer</h1>
+      <p class="job-headline">Join a world-class team building the future of decentralized infrastructure. Your journey to the next career peak starts here.</p>
+
+      <div class="job-meta-grid">
+        <div class="job-meta-item">
+          <div class="job-meta-label">Location</div>
+          <div class="job-meta-value"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</div>
+        </div>
+        <div class="job-meta-item">
+          <div class="job-meta-label">Type</div>
+          <div class="job-meta-value"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</div>
+        </div>
+        <div class="job-meta-item">
+          <div class="job-meta-label">Experience</div>
+          <div class="job-meta-value">Senior (7+ yrs)</div>
+        </div>
+        <div class="job-meta-item">
+          <div class="job-meta-label">Posted</div>
+          <div class="job-meta-value">2 days ago</div>
+        </div>
+      </div>
+
+      <div class="salary-display">
+        <div class="salary-display-label">Salary Range</div>
+        <div class="salary-display-value">$140,000 – $180,000</div>
+        <div class="salary-horizon"><div class="salary-horizon-fill"></div></div>
+        <div class="salary-horizon-labels"><span>$140k base</span><span>$180k base</span></div>
+      </div>
+
+      <div class="job-section-title">What You'll Do</div>
+      <div class="job-req-list">
+        <div class="job-req-item"><div class="job-req-dot"></div>Own end-to-end design for 2–3 core product areas with significant user impact.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Partner closely with engineering and product leadership to define product direction.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Lead and maintain our design system, ensuring consistency across all surfaces.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Conduct and synthesize user research to inform design decisions.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Mentor junior designers and champion design culture across the organization.</div>
+      </div>
+
+      <div class="job-section-title">Requirements</div>
+      <div class="job-req-list">
+        <div class="job-req-item"><div class="job-req-dot"></div>7+ years of product design experience at a tech company.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Expert-level proficiency in Figma and modern design tooling.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Strong portfolio demonstrating end-to-end product thinking.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Experience shipping design systems used in production.</div>
+        <div class="job-req-item"><div class="job-req-dot"></div>Excellent written and async communication skills.</div>
+      </div>
+
+      <div class="job-section-title">Skills</div>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--sp-2); margin-top:var(--sp-2);">
+        <span class="chip">Figma</span><span class="chip">Design Systems</span>
+        <span class="chip">UX Research</span><span class="chip">Prototyping</span>
+        <span class="chip">Accessibility</span><span class="chip">Motion Design</span>
+      </div>
+    </aside>
+
+    <!-- Right: Application Form -->
+    <main class="apply-form-panel">
+      <div class="apply-form-header">
+        <h2 class="apply-form-title">Your Application</h2>
+        <p class="apply-form-sub">Review your details and submit. Our team reviews every application personally.</p>
+      </div>
+
+      <div class="apply-autofill">
+        <span class="material-symbols-outlined">auto_awesome</span>
+        <div class="apply-autofill-text">Your profile data has been <strong>pre-filled</strong>. Review and adjust below.</div>
+        <a href="/profile.html" class="btn btn-secondary btn-sm">Edit Profile</a>
+      </div>
+
+      <div class="apply-progress">
+        <div class="apply-progress-label">Application Completion — 60%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+
+      <form class="apply-form" id="apply-form" onsubmit="submitApplication(event)">
+
+        <div class="form-group">
+          <label class="form-label" for="apply-name">Full Name</label>
+          <input id="apply-name" class="form-input" type="text" value="Alex Strathmore" required />
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4);">
+          <div class="form-group">
+            <label class="form-label" for="apply-email">Email</label>
+            <input id="apply-email" class="form-input" type="email" value="alex@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-phone">Phone (Optional)</label>
+            <input id="apply-phone" class="form-input" type="tel" placeholder="+1 (555) 000-0000" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Curriculum Vitae (CV)</label>
+          <div class="upload-zone" id="cv-zone" onclick="document.getElementById('cv-input').click()">
+            <div class="upload-zone-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">description</span></div>
+            <div class="upload-zone-title">Drop your CV here or browse</div>
+            <div class="upload-zone-sub">PDF, DOCX up to 10MB (Mandatory)</div>
+            <input id="cv-input" type="file" accept=".pdf,.docx" style="display:none" onchange="handleCVUpload(this)" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="apply-portfolio">Portfolio URL</label>
+          <input id="apply-portfolio" class="form-input" type="url" placeholder="https://yourportfolio.com" value="https://alexstrathmore.design" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="apply-linkedin">LinkedIn Profile</label>
+          <input id="apply-linkedin" class="form-input" type="url" placeholder="https://linkedin.com/in/yourname" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="apply-cover">Additional Information</label>
+          <textarea id="apply-cover" class="form-input form-textarea" placeholder="Tell us why you're a great fit for this role and what excites you about GlobalTech Systems..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Annual Salary Expectation</label>
+          <div class="salary-input-group">
+            <span class="salary-currency">USD</span>
+            <input class="form-input salary-input" type="number" placeholder="e.g. 160000" min="50000" max="500000" step="5000" />
+          </div>
+          <div class="form-helper">Enter gross annual salary in USD</div>
+        </div>
+
+        <div class="submit-section">
+          <div class="submit-notice">By clicking submit, you agree to our <a href="#">Privacy Policy</a> regarding your applicant data. Your information will be shared with GlobalTech Systems for the purpose of this application only.</div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="submit-btn">
+            Submit Application →
+          </button>
+        </div>
+
+      </form>
+
+      <div style="text-align:center; margin-top:var(--sp-8); color:var(--on-surface-variant); font-size:var(--body-sm);">
+        Connecting elite talent with world-changing opportunities in the technology sector.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // CV Drop
+    const cvZone = document.getElementById('cv-zone');
+    cvZone.addEventListener('dragover', e => { e.preventDefault(); cvZone.style.borderColor = 'var(--primary)'; });
+    cvZone.addEventListener('dragleave', () => { cvZone.style.borderColor = ''; });
+    cvZone.addEventListener('drop', e => {
+      e.preventDefault(); cvZone.style.borderColor = '';
+      const file = e.dataTransfer.files[0];
+      if (file) cvZone.querySelector('.upload-zone-title').textContent = `<span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span> ${file.name}`;
+    });
+
+    function handleCVUpload(input) {
+      const file = input.files[0];
+      if (file) {
+        cvZone.querySelector('.upload-zone-title').textContent = `<span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span> ${file.name}`;
+        cvZone.style.borderColor = 'var(--primary)';
+        document.querySelector('.progress-fill').style.width = '85%';
+        document.querySelector('.apply-progress-label').textContent = 'Application Completion — 85%';
+      }
+    }
+
+    async function submitApplication(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.textContent = 'Submitting...'; btn.disabled = true;
+
+      const formData = new FormData();
+      const cvFile = document.getElementById('cv-input').files[0];
+      if (cvFile) formData.append('cv', cvFile);
+      formData.append('cover_letter', document.getElementById('apply-cover').value);
+
+      try {
+        await fetch('/apply/1', { method: 'POST', body: formData });
+      } catch(_) {}
+
+      // Success state
+      btn.textContent = '<span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span> Application Submitted!';
+      btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+      document.querySelector('.progress-fill').style.width = '100%';
+      document.querySelector('.apply-progress-label').textContent = 'Application Submitted <span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span>';
+
+      setTimeout(() => { window.location.href = '/dashboard-seeker.html'; }, 1800);
+    }
+  </script>
+</body>
+</html>

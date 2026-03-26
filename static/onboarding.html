@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onboarding | TechJobConnect</title>
+  <meta name="description" content="Design your career trajectory on TechJobConnect." />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    body { background: var(--surface); }
+    .onboarding-page { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+    .onboarding-brand {
+      background: var(--gradient-primary); color: #fff;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: var(--sp-16) var(--sp-12); position: relative; overflow: hidden;
+    }
+    .onboarding-brand::before {
+      content: ''; position: absolute; top: -120px; right: -80px;
+      width: 350px; height: 350px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .brand-logo { font-family: var(--font-headline); font-weight: 800; font-size: 1.3rem; margin-bottom: var(--sp-12); position: relative; z-index:1; }
+    .brand-logo span { opacity: 0.7; }
+    .brand-step { font-size: var(--label-md); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8; margin-bottom: var(--sp-4); position: relative; z-index:1; }
+    .brand-title {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--display-md); line-height: 1.1;
+      margin-bottom: var(--sp-6); position: relative; z-index:1;
+    }
+    .brand-sub { font-size: var(--body-lg); opacity: 0.8; line-height: 1.7; max-width: 38ch; position: relative; z-index:1; }
+    .brand-quote {
+      margin-top: var(--sp-12); padding: var(--sp-6);
+      background: rgba(255,255,255,0.12); border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px); position: relative; z-index:1;
+    }
+    .brand-quote p { font-style: italic; opacity: 0.95; line-height: 1.6; }
+    .brand-quote .author { margin-top: var(--sp-3); font-weight: 600; font-size: var(--body-sm); }
+
+    .onboarding-form-panel {
+      display: flex; flex-direction: column;
+      padding: var(--sp-12); overflow-y: auto;
+    }
+    .onboarding-header { margin-bottom: var(--sp-8); }
+    .step-badge {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      background: rgba(0,85,215,0.08); color: var(--primary);
+      border-radius: var(--radius-full); padding: var(--sp-1) var(--sp-4);
+      font-size: var(--label-md); font-weight: 700; letter-spacing: 0.05em;
+      margin-bottom: var(--sp-6);
+    }
+    .onboarding-title {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--headline-md); color: var(--on-surface);
+      margin-bottom: var(--sp-2);
+    }
+    .onboarding-sub { font-size: var(--body-md); color: var(--on-surface-variant); }
+
+    .progress-steps {
+      display: flex; gap: var(--sp-2); margin-bottom: var(--sp-8);
+    }
+    .progress-step {
+      flex: 1; height: 4px; border-radius: var(--radius-full);
+      background: var(--surface-container-high);
+      transition: background var(--duration-normal) var(--ease-premium);
+    }
+    .progress-step.done { background: var(--gradient-primary); }
+    .progress-step.active { background: var(--primary); }
+
+    .onboarding-form { display: flex; flex-direction: column; gap: var(--sp-6); max-width: 520px; }
+    .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .skill-chip {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-4); border-radius: var(--radius-full);
+      background: var(--surface-container); color: var(--on-surface-variant);
+      font-size: var(--body-sm); font-weight: 500; cursor: pointer;
+      border: 2px solid transparent;
+      transition: all var(--duration-fast) var(--ease-premium);
+    }
+    .skill-chip:hover { border-color: rgba(0,85,215,0.3); color: var(--primary); }
+    .skill-chip.selected { background: rgba(0,85,215,0.08); border-color: var(--primary); color: var(--primary); }
+
+    .onboarding-actions { display: flex; gap: var(--sp-3); margin-top: var(--sp-4); }
+    .step-indicator { font-size: var(--body-sm); color: var(--on-surface-variant); margin-top: var(--sp-2); }
+  </style>
+</head>
+<body>
+  <div class="onboarding-page">
+
+    <!-- Left Brand Panel -->
+    <aside class="onboarding-brand">
+      <div class="brand-logo">Tech<span>Connect</span></div>
+      <div class="brand-step">Step 1 of 5</div>
+      <h1 class="brand-title">Design your<br />career trajectory.</h1>
+      <p class="brand-sub">Tell us who you are. We'll match you with opportunities that fit your exact ambitions.</p>
+      <div class="brand-quote">
+        <p>"TechJobConnect simplified my job search into a beautiful, meaningful experience. I found my role at Figma within 3 weeks."</p>
+        <div class="author">— Maria L., Senior Product Designer at Figma</div>
+      </div>
+    </aside>
+
+    <!-- Right Form Panel -->
+    <main class="onboarding-form-panel">
+      <div style="max-width:520px; width:100%; margin: auto;">
+
+        <div class="progress-steps">
+          <div class="progress-step done"></div>
+          <div class="progress-step active"></div>
+          <div class="progress-step"></div>
+          <div class="progress-step"></div>
+          <div class="progress-step"></div>
+        </div>
+
+        <div class="step-badge">Step 1 of 5 · Defining Your Identity</div>
+        <h2 class="onboarding-title">Tell us about yourself</h2>
+        <p class="onboarding-sub" style="margin-bottom: var(--sp-8);">This helps us tailor your experience from day one.</p>
+
+        <div class="onboarding-form">
+          <div class="name-row">
+            <div class="form-group">
+              <label class="form-label" for="ob-fname">First Name</label>
+              <input id="ob-fname" class="form-input" type="text" placeholder="Alex" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ob-lname">Last Name</label>
+              <input id="ob-lname" class="form-input" type="text" placeholder="Strathmore" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ob-title">Current Title</label>
+            <input id="ob-title" class="form-input" type="text" placeholder="e.g. Senior Product Designer" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ob-exp">Years of Experience</label>
+            <select id="ob-exp" class="form-input form-select">
+              <option value="">Select experience level</option>
+              <option>0–2 years (Junior)</option>
+              <option>3–5 years (Mid-level)</option>
+              <option>6–10 years (Senior)</option>
+              <option>10+ years (Principal / Staff)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Primary Expertise</label>
+            <div class="skills-grid" id="skills-grid">
+              <div class="skill-chip" onclick="toggleSkill(this)">Frontend Engineering</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">Backend Engineering</div>
+              <div class="skill-chip selected" onclick="toggleSkill(this)">Product Design</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">ML / AI</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">DevOps / Platform</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">Mobile (iOS / Android)</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">Data Engineering</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">Security</div>
+              <div class="skill-chip" onclick="toggleSkill(this)">Product Management</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Resume / CV (Optional at this stage)</label>
+            <div class="upload-zone" onclick="document.getElementById('ob-resume').click()">
+              <div class="upload-zone-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">description</span></div>
+              <div class="upload-zone-title">Click to upload or drag and drop</div>
+              <div class="upload-zone-sub">PDF, DOCX up to 10MB</div>
+              <input id="ob-resume" type="file" accept=".pdf,.docx" style="display:none" />
+            </div>
+          </div>
+
+          <div class="onboarding-actions">
+            <a href="/login.html" class="btn btn-ghost"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">arrow_back</span> Back</a>
+            <a href="/dashboard-seeker.html" class="btn btn-primary" style="flex:1;">Continue to Step 2 →</a>
+          </div>
+          <div class="step-indicator">© 2024 TechJobConnect · <a href="#" style="color:inherit;">Privacy Policy</a> · <a href="#" style="color:inherit;">Contact Us</a></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleSkill(el) { el.classList.toggle('selected'); }
+
+    const dropzone = document.querySelector('.upload-zone');
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.style.borderColor = 'var(--primary)'; });
+    dropzone.addEventListener('dragleave', () => { dropzone.style.borderColor = ''; });
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault(); dropzone.style.borderColor = '';
+      const file = e.dataTransfer.files[0];
+      if (file) dropzone.querySelector('.upload-zone-title').textContent = `<span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span> ${file.name}`;
+    });
+    document.getElementById('ob-resume').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) dropzone.querySelector('.upload-zone-title').textContent = `<span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle;">check</span> ${file.name}`;
+    });
+  </script>
+</body>
+</html>

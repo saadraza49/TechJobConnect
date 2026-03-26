@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Signup | TechJobConnect</title>
+  <meta name="description" content="Sign in or create your TechJobConnect account to access curated tech opportunities." />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    body { background: var(--surface); }
+
+    .auth-page { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+    /* Left Brand Panel */
+    .auth-brand {
+      background: var(--gradient-primary);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: var(--sp-16) var(--sp-12);
+      position: relative; overflow: hidden;
+    }
+    .auth-brand::before {
+      content: '';
+      position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .auth-brand::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .auth-brand-logo {
+      font-family: var(--font-headline); font-weight: 800; font-size: 1.4rem;
+      color: #fff; margin-bottom: var(--sp-16);
+      position: relative; z-index: 1;
+    }
+    .auth-brand-logo span { opacity: 0.75; }
+    .auth-brand-title {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--display-md); color: #fff; line-height: 1.1;
+      margin-bottom: var(--sp-4); position: relative; z-index: 1;
+    }
+    .auth-brand-sub {
+      font-size: var(--body-lg); color: rgba(255,255,255,0.75);
+      line-height: 1.7; max-width: 40ch; position: relative; z-index: 1;
+    }
+    .auth-brand-quote {
+      margin-top: var(--sp-12);
+      padding: var(--sp-6);
+      background: rgba(255,255,255,0.10); border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px);
+      position: relative; z-index: 1;
+    }
+    .auth-brand-quote p { color: rgba(255,255,255,0.9); font-size: var(--body-md); line-height: 1.6; font-style: italic; }
+    .auth-brand-quote .quote-author { margin-top: var(--sp-3); font-weight: 600; color: #fff; font-size: var(--body-sm); }
+
+    /* Right Form Panel */
+    .auth-form-panel {
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; padding: var(--sp-12);
+      background: var(--surface);
+    }
+    .auth-form-box { width: 100%; max-width: 440px; }
+    .auth-form-header { margin-bottom: var(--sp-8); }
+    .auth-form-header h1 {
+      font-family: var(--font-headline); font-weight: 800;
+      font-size: var(--headline-md); color: var(--on-surface);
+      margin-bottom: var(--sp-2);
+    }
+    .auth-form-header p { font-size: var(--body-md); color: var(--on-surface-variant); }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex; background: var(--surface-container);
+      border-radius: var(--radius-full); padding: 4px;
+      margin-bottom: var(--sp-8);
+    }
+    .auth-tab {
+      flex: 1; text-align: center; padding: var(--sp-3);
+      border-radius: var(--radius-full); font-weight: 600;
+      font-size: var(--body-md); color: var(--on-surface-variant);
+      cursor: pointer; transition: all var(--duration-fast) var(--ease-premium);
+    }
+    .auth-tab.active {
+      background: var(--surface-container-lowest);
+      color: var(--on-surface);
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Forms */
+    .auth-form { display: none; flex-direction: column; gap: var(--sp-5); }
+    .auth-form.active { display: flex; }
+    .form-helper { font-size: var(--body-sm); color: var(--on-surface-variant); margin-top: var(--sp-1); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+    .forgot-link {
+      font-size: var(--body-sm); color: var(--primary); font-weight: 500;
+      transition: opacity var(--duration-fast);
+    }
+    .forgot-link:hover { opacity: 0.7; }
+    .form-password-row {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .auth-divider {
+      display: flex; align-items: center; gap: var(--sp-4);
+      color: var(--on-surface-variant); font-size: var(--body-sm);
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--outline-variant); opacity: 0.4;
+    }
+    .auth-switch {
+      text-align: center; font-size: var(--body-sm); color: var(--on-surface-variant);
+      margin-top: var(--sp-4);
+    }
+    .auth-switch a { color: var(--primary); font-weight: 600; }
+    .auth-footer {
+      margin-top: var(--sp-12); text-align: center;
+      display: flex; gap: var(--sp-4); justify-content: center;
+      font-size: var(--body-sm); color: var(--on-surface-variant);
+    }
+    .auth-footer a { color: var(--on-surface-variant); }
+    .auth-footer a:hover { color: var(--primary); }
+
+    /* Role selector */
+    .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+    .role-option {
+      border: 2px solid var(--surface-container-high);
+      border-radius: var(--radius-lg); padding: var(--sp-4);
+      cursor: pointer; text-align: center;
+      transition: all var(--duration-fast) var(--ease-premium);
+    }
+    .role-option:hover { border-color: rgba(0,85,215,0.4); background: rgba(0,85,215,0.04); }
+    .role-option.selected { border-color: var(--primary); background: rgba(0,85,215,0.06); }
+    .role-option-icon { font-size: 1.5rem; margin-bottom: var(--sp-2); }
+    .role-option-label { font-size: var(--body-sm); font-weight: 600; color: var(--on-surface); }
+    .role-option-sub { font-size: var(--label-md); color: var(--on-surface-variant); margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <div class="auth-page">
+
+    <!-- Left: Brand Panel -->
+    <aside class="auth-brand">
+      <div class="auth-brand-logo">Tech<span>Connect</span></div>
+      <h1 class="auth-brand-title">The Elevated<br />Professional</h1>
+      <p class="auth-brand-sub">The premium destination for software engineers, product designers, and tech visionaries.</p>
+      <div class="auth-brand-quote">
+        <p>"TechJobConnect simplified my job search into a beautiful, meaningful experience. I found my role at Figma within 3 weeks."</p>
+        <div class="quote-author">— Alex Strathmore, Senior Product Designer</div>
+      </div>
+    </aside>
+
+    <!-- Right: Form Panel -->
+    <main class="auth-form-panel">
+      <div class="auth-form-box animate-fade-up">
+
+        <div class="auth-form-header">
+          <h1 id="form-title">Welcome Back</h1>
+          <p id="form-subtitle">Enter your credentials to access your professional dashboard.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+          <div class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Create Account</div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address</label>
+            <input id="login-email" class="form-input" type="email" placeholder="alex@example.com" required />
+          </div>
+          <div class="form-group">
+            <div class="form-password-row">
+              <label class="form-label" for="login-password">Password</label>
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            <input id="login-password" class="form-input" type="password" placeholder="••••••••" required />
+            <div class="form-helper">Password must be at least 8 characters</div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Sign In →</button>
+          <div class="auth-switch">Don't have an account? <a href="#" onclick="switchTab('signup'); return false;">Create account</a></div>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="form-signup" class="auth-form" onsubmit="handleSignup(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="signup-fname">First Name</label>
+              <input id="signup-fname" class="form-input" type="text" placeholder="Alex" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="signup-lname">Last Name</label>
+              <input id="signup-lname" class="form-input" type="text" placeholder="Strathmore" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signup-email">Email Address</label>
+            <input id="signup-email" class="form-input" type="email" placeholder="alex@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">I am a...</label>
+            <div class="role-selector">
+              <div class="role-option selected" onclick="selectRole(this, 'job_seeker')">
+                <div class="role-option-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">person</span></div>
+                <div class="role-option-label">Job Seeker</div>
+                <div class="role-option-sub">Find my next role</div>
+              </div>
+              <div class="role-option" onclick="selectRole(this, 'employer')">
+                <div class="role-option-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span></div>
+                <div class="role-option-label">Employer</div>
+                <div class="role-option-sub">Hire top talent</div>
+              </div>
+            </div>
+            <input type="hidden" id="signup-role" value="job_seeker" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signup-password">Password</label>
+            <input id="signup-password" class="form-input" type="password" placeholder="Create a strong password" required minlength="8" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Create Account →</button>
+          <div class="auth-switch">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a></div>
+        </form>
+
+        <!-- Footer Links -->
+        <div class="auth-footer">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">System Status</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Check for #signup hash
+    if (window.location.hash === '#signup') switchTabInit('signup');
+
+    function switchTab(tab) {
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+      document.getElementById('form-login').classList.toggle('active', tab === 'login');
+      document.getElementById('form-signup').classList.toggle('active', tab === 'signup');
+      document.getElementById('form-title').textContent = tab === 'login' ? 'Welcome Back' : 'Create Your Profile';
+      document.getElementById('form-subtitle').textContent = tab === 'login'
+        ? 'Enter your credentials to access your professional dashboard.'
+        : 'Join 5,000+ tech professionals on the elevated platform.';
+    }
+    function switchTabInit(tab) { switchTab(tab); }
+
+    function selectRole(el, role) {
+      document.querySelectorAll('.role-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('signup-role').value = role;
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = 'Signing in...'; btn.disabled = true;
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('login-email').value,
+            password: document.getElementById('login-password').value,
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem('tjc_token', data.access_token || '');
+          window.location.href = data.role === 'employer' ? '/dashboard-employer.html' : '/dashboard-seeker.html';
+        } else {
+          alert('Invalid credentials. Please try again.');
+          btn.textContent = 'Sign In →'; btn.disabled = false;
+        }
+      } catch {
+        // Demo: redirect to seeker dashboard
+        window.location.href = '/dashboard-seeker.html';
+      }
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = 'Creating account...'; btn.disabled = true;
+      try {
+        const res = await fetch('/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('signup-fname').value + ' ' + document.getElementById('signup-lname').value,
+            email: document.getElementById('signup-email').value,
+            password: document.getElementById('signup-password').value,
+            role: document.getElementById('signup-role').value,
+          })
+        });
+        if (res.ok) {
+          window.location.href = '/onboarding.html';
+        } else {
+          alert('Signup failed. Email may already be in use.');
+          btn.textContent = 'Create Account →'; btn.disabled = false;
+        }
+      } catch {
+        window.location.href = '/onboarding.html';
+      }
+    }
+  </script>
+</body>
+</html>

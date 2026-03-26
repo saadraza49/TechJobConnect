@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employer Dashboard | TechJobConnect</title>
+  <meta name="description" content="Manage your engineering talent pipeline. Review and connect with top tech talent." />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <style>
+    body { background: var(--surface-container-low); }
+    .emp-layout { display: flex; min-height: calc(100vh - 64px); }
+
+    /* Sidebar */
+    .emp-sidebar { width: 260px; flex-shrink:0; background: var(--surface-container-lowest); border-right: 1px solid rgba(172,179,183,0.12); padding: var(--sp-8) 0; display:flex; flex-direction:column; }
+    .emp-sidebar-user { padding: 0 var(--sp-5) var(--sp-6); border-bottom: 1px solid rgba(172,179,183,0.10); margin-bottom: var(--sp-4); }
+    .emp-sidebar-name { font-weight:700; font-size:var(--body-md); color:var(--on-surface); }
+    .emp-sidebar-role { font-size:var(--label-md); color:var(--primary); margin-top:2px; background: rgba(0,85,215,0.08); display:inline-block; padding: 2px 8px; border-radius: 99px; }
+    .emp-nav { padding: 0 var(--sp-3); }
+    .emp-nav-item { display:flex; align-items:center; justify-content:space-between; padding: var(--sp-3); border-radius: var(--radius-lg); color:var(--on-surface-variant); font-size:var(--body-md); font-weight:500; cursor:pointer; transition: all var(--duration-fast) var(--ease-premium); }
+    .emp-nav-item:hover { background: var(--surface-container); color:var(--on-surface); }
+    .emp-nav-item.active { background: rgba(0,85,215,0.07); color:var(--primary); font-weight:600; }
+    .emp-nav-left { display:flex; align-items:center; gap: var(--sp-3); }
+
+    /* Main */
+    .emp-main { flex:1; padding: var(--sp-8); overflow-y:auto; display:grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); align-content:start; }
+    .emp-section-span { grid-column: 1 / -1; }
+    .emp-dash-header { display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--sp-2); }
+    .emp-dash-title { font-family:var(--font-headline); font-weight:800; font-size:var(--headline-sm); color:var(--on-surface); }
+
+    /* Stats row */
+    .emp-stats-row { display:grid; grid-template-columns: repeat(4,1fr); gap:var(--sp-4); grid-column: 1 / -1; }
+    .emp-stat-card { background:var(--surface-container-lowest); border-radius:var(--radius-xl); padding:var(--sp-5); box-shadow:var(--shadow-card); }
+    .emp-stat-card .stat-value { font-size:var(--headline-md); }
+
+    /* Active listings */
+    .listings-panel { background:var(--surface-container-lowest); border-radius:var(--radius-xl); padding:var(--sp-6); box-shadow:var(--shadow-card); }
+    .panel-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-5); }
+    .panel-title { font-family:var(--font-headline); font-weight:700; font-size:var(--title-lg); color:var(--on-surface); }
+    .listing-item { display:flex; align-items:center; justify-content:space-between; padding:var(--sp-4) 0; border-bottom:1px solid rgba(172,179,183,0.10); cursor:pointer; transition: opacity var(--duration-fast); }
+    .listing-item:last-child { border-bottom:none; }
+    .listing-item:hover { opacity:0.8; }
+    .listing-item.selected { background: rgba(0,85,215,0.04); margin: 0 calc(-1 * var(--sp-4)); padding: var(--sp-4); border-radius:var(--radius-lg); border-bottom:none; }
+    .listing-dot { width:10px; height:10px; border-radius:50%; background: #22c55e; flex-shrink:0; }
+    .listing-info { flex:1; margin-left:var(--sp-3); }
+    .listing-title { font-weight:700; font-size:var(--body-md); color:var(--on-surface); }
+    .listing-meta { font-size:var(--body-sm); color:var(--on-surface-variant); margin-top:2px; }
+    .listing-count { font-size:var(--label-md); font-weight:700; color:var(--primary); background:rgba(0,85,215,0.08); padding:2px 10px; border-radius:99px; }
+
+    /* Candidate cards */
+    .candidates-panel { background:var(--surface-container-lowest); border-radius:var(--radius-xl); padding:var(--sp-6); box-shadow:var(--shadow-card); }
+    .candidate-card { display:flex; gap:var(--sp-4); padding:var(--sp-5); border-radius:var(--radius-xl); background:var(--surface-container-low); margin-bottom:var(--sp-4); transition:all var(--duration-normal) var(--ease-premium); }
+    .candidate-card:hover { background:var(--surface-container); transform:translateX(4px); }
+    .candidate-card:last-child { margin-bottom:0; }
+    .candidate-info { flex:1; }
+    .candidate-name { font-weight:700; font-size:var(--body-md); color:var(--on-surface); }
+    .candidate-bio { font-size:var(--body-sm); color:var(--on-surface-variant); margin-top: var(--sp-1); line-height:1.5; }
+    .candidate-actions { display:flex; gap:var(--sp-2); margin-top:var(--sp-3); }
+
+    /* Pipeline */
+    .pipeline-panel { grid-column:1 / -1; background:var(--surface-container-lowest); border-radius:var(--radius-xl); padding:var(--sp-6); box-shadow:var(--shadow-card); }
+    .pipeline-stages { display:grid; grid-template-columns: repeat(4,1fr); gap:var(--sp-4); margin-top:var(--sp-5); }
+    .pipeline-stage { background:var(--surface-container-low); border-radius:var(--radius-lg); padding:var(--sp-4); }
+    .pipeline-stage-name { font-size:var(--label-md); font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--on-surface-variant); margin-bottom:var(--sp-3); }
+    .pipeline-card { background:var(--surface-container-lowest); border-radius:var(--radius-md); padding:var(--sp-3); margin-bottom:var(--sp-2); font-size:var(--body-sm); color:var(--on-surface); font-weight:500; box-shadow:var(--shadow-card); cursor:grab; }
+    .pipeline-card:last-child { margin-bottom:0; }
+    .pipeline-card-meta { font-size:var(--label-md); color:var(--on-surface-variant); margin-top:2px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="glass-nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo">Tech<span>Connect</span></a>
+      <nav class="nav-links">
+        <a href="/dashboard-employer.html">Dashboard</a>
+        <a href="#">Job Listings</a>
+        <a href="#">Candidates</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-primary btn-sm">+ Post a Job</a>
+        <a href="/login.html" class="btn btn-ghost btn-sm">Sign Out</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="emp-layout">
+
+    <!-- Sidebar -->
+    <aside class="emp-sidebar">
+      <div class="emp-sidebar-user">
+        <div style="display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-3);">
+          <div class="avatar-placeholder" style="width:44px;height:44px;font-size:1rem;">GT</div>
+          <div>
+            <div class="emp-sidebar-name">GlobalTech Systems</div>
+            <div class="emp-sidebar-role">Employer</div>
+          </div>
+        </div>
+      </div>
+      <div class="emp-nav">
+        <div class="emp-nav-item active"><div class="emp-nav-left"><span class="material-symbols-outlined">home</span> Dashboard</div></div>
+        <div class="emp-nav-item"><div class="emp-nav-left"><span class="material-symbols-outlined">list_alt</span> Active Listings</div> <div class="badge">3</div></div>
+        <div class="emp-nav-item"><div class="emp-nav-left"><span class="material-symbols-outlined">group</span> All Candidates</div> <div class="badge">47</div></div>
+        <div class="emp-nav-item"><div class="emp-nav-left"><span class="material-symbols-outlined">bar_chart</span> Analytics</div></div>
+        <div class="emp-nav-item"><div class="emp-nav-left"><span class="material-symbols-outlined">chat</span> Messages</div> <div class="badge">5</div></div>
+        <div class="emp-nav-item"><div class="emp-nav-left"><span class="material-symbols-outlined">settings</span> Settings</div></div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="emp-main">
+
+      <div class="emp-section-span">
+        <div class="emp-dash-header">
+          <div>
+            <div class="emp-dash-title">Employer Dashboard</div>
+            <div style="font-size:var(--body-sm); color:var(--on-surface-variant);">Manage your engineering talent pipeline · Friday, March 27</div>
+          </div>
+          <a href="#" class="btn btn-primary">+ Post New Role</a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="emp-stats-row">
+        <div class="emp-stat-card">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Active Listings</div>
+        </div>
+        <div class="emp-stat-card">
+          <div class="stat-value">47</div>
+          <div class="stat-label">Total Applicants</div>
+        </div>
+        <div class="emp-stat-card">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Shortlisted</div>
+        </div>
+        <div class="emp-stat-card">
+          <div class="stat-value">14d</div>
+          <div class="stat-label">Avg. Time to Hire</div>
+        </div>
+      </div>
+
+      <!-- Active Listings -->
+      <div class="listings-panel">
+        <div class="panel-header">
+          <div class="panel-title">Active Listings</div>
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div class="listing-item selected" onclick="selectJob(this)">
+          <div class="listing-dot"></div>
+          <div class="listing-info">
+            <div class="listing-title">Senior Frontend Engineer</div>
+            <div class="listing-meta">San Francisco, CA · Remote</div>
+          </div>
+          <span class="listing-count">18 applicants</span>
+        </div>
+        <div class="listing-item" onclick="selectJob(this)">
+          <div class="listing-dot"></div>
+          <div class="listing-info">
+            <div class="listing-title">Staff Backend Architect</div>
+            <div class="listing-meta">Austin, TX · On-site</div>
+          </div>
+          <span class="listing-count">14 applicants</span>
+        </div>
+        <div class="listing-item" onclick="selectJob(this)">
+          <div class="listing-dot"></div>
+          <div class="listing-info">
+            <div class="listing-title">Product Designer (UX)</div>
+            <div class="listing-meta">London, UK · Hybrid</div>
+          </div>
+          <span class="listing-count">15 applicants</span>
+        </div>
+      </div>
+
+      <!-- Candidates -->
+      <div class="candidates-panel">
+        <div class="panel-header">
+          <div class="panel-title">Top Candidates</div>
+          <span style="font-size:var(--body-sm); color:var(--on-surface-variant);">Senior Frontend Engineer</span>
+        </div>
+        <div class="candidate-card">
+          <div class="avatar-placeholder" style="width:48px;height:48px;">AR</div>
+          <div class="candidate-info">
+            <div class="candidate-name">Alexandria Rivera</div>
+            <div class="candidate-bio">Ex-Vercel. 8+ years building accessible, high-performance web systems.</div>
+            <div class="candidate-actions">
+              <button class="btn btn-primary btn-sm">Shortlist</button>
+              <button class="btn btn-secondary btn-sm">View Profile</button>
+              <button class="btn btn-ghost btn-sm">Reject</button>
+            </div>
+          </div>
+        </div>
+        <div class="candidate-card">
+          <div class="avatar-placeholder" style="width:48px;height:48px;">JM</div>
+          <div class="candidate-info">
+            <div class="candidate-name">Jordan Marcus</div>
+            <div class="candidate-bio">Full-stack specialist with focus on UI/UX motion. Previous lead at Framer.</div>
+            <div class="candidate-actions">
+              <button class="btn btn-primary btn-sm">Shortlist</button>
+              <button class="btn btn-secondary btn-sm">View Profile</button>
+              <button class="btn btn-ghost btn-sm">Reject</button>
+            </div>
+          </div>
+        </div>
+        <div class="candidate-card">
+          <div class="avatar-placeholder" style="width:48px;height:48px;">SC</div>
+          <div class="candidate-info">
+            <div class="candidate-name">Sarah Chen</div>
+            <div class="candidate-bio">Passionate about decentralized systems and reactive programming. Open source contributor.</div>
+            <div class="candidate-actions">
+              <button class="btn btn-primary btn-sm">Shortlist</button>
+              <button class="btn btn-secondary btn-sm">View Profile</button>
+              <button class="btn btn-ghost btn-sm">Reject</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hiring Pipeline -->
+      <div class="pipeline-panel">
+        <div class="panel-header">
+          <div class="panel-title">Hiring Pipeline</div>
+          <span class="chip">Senior Frontend Engineer</span>
+        </div>
+        <div class="pipeline-stages">
+          <div class="pipeline-stage">
+            <div class="pipeline-stage-name">Applied</div>
+            <div class="pipeline-card">Jordan Marcus<div class="pipeline-card-meta">Applied 2d ago</div></div>
+            <div class="pipeline-card">Sarah Chen<div class="pipeline-card-meta">Applied 3d ago</div></div>
+            <div class="pipeline-card">Thomas Wei<div class="pipeline-card-meta">Applied 4d ago</div></div>
+          </div>
+          <div class="pipeline-stage">
+            <div class="pipeline-stage-name">Reviewing</div>
+            <div class="pipeline-card">Alexandria Rivera<div class="pipeline-card-meta">In review · 5 days</div></div>
+            <div class="pipeline-card">Priya Mehta<div class="pipeline-card-meta">In review · 2 days</div></div>
+          </div>
+          <div class="pipeline-stage">
+            <div class="pipeline-stage-name">Interview</div>
+            <div class="pipeline-card">Marcus Okafor<div class="pipeline-card-meta">Technical · Scheduled</div></div>
+          </div>
+          <div class="pipeline-stage">
+            <div class="pipeline-stage-name">Offer</div>
+            <div class="pipeline-card" style="color:var(--primary);">Awaiting candidates</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function selectJob(el) {
+      document.querySelectorAll('.listing-item').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
