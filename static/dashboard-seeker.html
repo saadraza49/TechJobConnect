@@ -157,205 +157,226 @@
         </div>
       </div>
 
-      <!-- Search -->
-      <div class="search-bar">
-        <div class="search-input-wrap">
-          <span class="search-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">search</span></span>
-          <input class="search-input" type="text" placeholder="Search job titles, companies, or skills..." />
-        </div>
-        <button class="search-filter active" onclick="this.classList.toggle('active')">Remote</button>
-        <button class="search-filter" onclick="this.classList.toggle('active')">Full-time</button>
-        <button class="search-filter" onclick="this.classList.toggle('active')">Senior+</button>
-        <button class="search-filter" onclick="this.classList.toggle('active')">$150k+</button>
+      <!-- Feed / Tabs -->
+      <div class="search-bar" style="margin-bottom:var(--sp-4);">
+        <button id="tab-jobs" class="search-filter active" onclick="switchMainTab('jobs')">Jobs for You</button>
+        <button id="tab-feed" class="search-filter" onclick="switchMainTab('feed')">Community Feed</button>
       </div>
 
-      <!-- Job Listings -->
-      <div class="jobs-header">
-        <div class="jobs-title">Curated for You</div>
-        <div class="jobs-count">Showing 6 of 24 matched roles</div>
+      <!-- Job Section -->
+      <div id="section-jobs">
+        <div class="search-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">search</span></span>
+            <input class="search-input" type="text" placeholder="Search job titles, companies, or skills..." />
+          </div>
+          <button class="search-filter">Remote</button>
+          <button class="search-filter">Full-time</button>
+        </div>
+
+        <div class="jobs-header">
+          <div class="jobs-title">Curated for You</div>
+          <div class="jobs-count">Showing roles</div>
+        </div>
+        <div class="jobs-grid" id="jobs-grid">
+
+          <div class="job-card animate-fade-up">
+            <div class="job-card-top">
+              <div class="company-logo">🌐</div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Senior Product Designer</div>
+              <div class="job-card-company">GlobalTech Systems · San Francisco, CA</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 2d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">Figma</span><span class="chip">Design Systems</span><span class="chip">UX Research</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$140k – $180k</div>
+                <div class="job-posted">+ equity</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">96% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="job-card animate-fade-up delay-100">
+            <div class="job-card-top">
+              <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">bolt</span></div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Staff Engineer — Infrastructure</div>
+              <div class="job-card-company">Vercel · Remote</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 1d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">Go</span><span class="chip">Kubernetes</span><span class="chip">Distributed Systems</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$200k – $260k</div>
+                <div class="job-posted">+ equity & RSUs</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">88% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="job-card animate-fade-up delay-200">
+            <div class="job-card-top">
+              <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">palette</span></div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Principal UX Researcher</div>
+              <div class="job-card-company">Figma · New York, NY</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> Hybrid</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 4d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">User Research</span><span class="chip">Quant Methods</span><span class="chip">Prototyping</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$170k – $210k</div>
+                <div class="job-posted">+ equity</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">91% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="job-card animate-fade-up">
+            <div class="job-card-top">
+              <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">rocket_launch</span></div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Design Systems Lead</div>
+              <div class="job-card-company">Linear · Remote</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 6d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">Design Systems</span><span class="chip">React</span><span class="chip">Storybook</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$160k – $190k</div>
+                <div class="job-posted">+ equity</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">94% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="job-card animate-fade-up delay-100">
+            <div class="job-card-top">
+              <div class="company-logo">🧠</div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Senior ML Engineer</div>
+              <div class="job-card-company">Anthropic · San Francisco, CA</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> On-site</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 3d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">PyTorch</span><span class="chip">LLMs</span><span class="chip">RLHF</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$230k – $300k</div>
+                <div class="job-posted">+ equity</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">79% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="job-card animate-fade-up delay-200">
+            <div class="job-card-top">
+              <div class="company-logo">🔷</div>
+              <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+            </div>
+            <div>
+              <div class="job-card-title">Senior Backend Architect</div>
+              <div class="job-card-company">Stripe · Austin, TX</div>
+            </div>
+            <div class="job-card-meta">
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> Hybrid</span>
+              <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
+              <span class="job-meta-item">📅 Posted 5d ago</span>
+            </div>
+            <div class="job-card-chips">
+              <span class="chip">Ruby</span><span class="chip">Kafka</span><span class="chip">Microservices</span>
+            </div>
+            <div class="job-card-footer">
+              <div>
+                <div class="job-salary">$195k – $245k</div>
+                <div class="job-posted">+ RSUs</div>
+              </div>
+              <div style="display:flex; gap:var(--sp-2);">
+                <div class="match-badge"><span class="match-pct">83% Match</span></div>
+                <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="text-align:center; margin-top: var(--sp-10);">
+          <button class="btn btn-secondary btn-lg" onclick="loadMore(this)">Load More Roles</button>
+        </div>
       </div>
 
-      <div class="jobs-grid" id="jobs-grid">
-
-        <div class="job-card animate-fade-up">
-          <div class="job-card-top">
-            <div class="company-logo">🌐</div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+      <!-- Feed Section -->
+      <div id="section-feed" style="display:none; max-width:600px; margin:0 auto;">
+          <div class="job-card" style="margin-bottom:var(--sp-6); cursor:default;">
+              <textarea id="post-content" class="form-input" placeholder="What's on your mind, tech-wise?" style="border:none; background:transparent; resize:none; font-size:1.1rem; padding:0; box-shadow:none;"></textarea>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:var(--sp-4); border-top:1px solid rgba(0,0,0,0.05); padding-top:var(--sp-3);">
+                  <div style="display:flex; gap:var(--sp-3); color:var(--on-surface-variant);">
+                      <span class="material-symbols-outlined" style="cursor:pointer;">image</span>
+                      <span class="material-symbols-outlined" style="cursor:pointer;">alternate_email</span>
+                      <span class="material-symbols-outlined" style="cursor:pointer;">tag</span>
+                  </div>
+                  <button onclick="createPost()" class="btn btn-primary btn-sm">Post</button>
+              </div>
           </div>
-          <div>
-            <div class="job-card-title">Senior Product Designer</div>
-            <div class="job-card-company">GlobalTech Systems · San Francisco, CA</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 2d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">Figma</span><span class="chip">Design Systems</span><span class="chip">UX Research</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$140k – $180k</div>
-              <div class="job-posted">+ equity</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">96% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-card animate-fade-up delay-100">
-          <div class="job-card-top">
-            <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">bolt</span></div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
-          </div>
-          <div>
-            <div class="job-card-title">Staff Engineer — Infrastructure</div>
-            <div class="job-card-company">Vercel · Remote</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 1d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">Go</span><span class="chip">Kubernetes</span><span class="chip">Distributed Systems</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$200k – $260k</div>
-              <div class="job-posted">+ equity & RSUs</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">88% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-card animate-fade-up delay-200">
-          <div class="job-card-top">
-            <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">palette</span></div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
-          </div>
-          <div>
-            <div class="job-card-title">Principal UX Researcher</div>
-            <div class="job-card-company">Figma · New York, NY</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> Hybrid</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 4d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">User Research</span><span class="chip">Quant Methods</span><span class="chip">Prototyping</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$170k – $210k</div>
-              <div class="job-posted">+ equity</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">91% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-card animate-fade-up">
-          <div class="job-card-top">
-            <div class="company-logo"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">rocket_launch</span></div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
-          </div>
-          <div>
-            <div class="job-card-title">Design Systems Lead</div>
-            <div class="job-card-company">Linear · Remote</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 6d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">Design Systems</span><span class="chip">React</span><span class="chip">Storybook</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$160k – $190k</div>
-              <div class="job-posted">+ equity</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">94% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-card animate-fade-up delay-100">
-          <div class="job-card-top">
-            <div class="company-logo">🧠</div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
-          </div>
-          <div>
-            <div class="job-card-title">Senior ML Engineer</div>
-            <div class="job-card-company">Anthropic · San Francisco, CA</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> On-site</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 3d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">PyTorch</span><span class="chip">LLMs</span><span class="chip">RLHF</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$230k – $300k</div>
-              <div class="job-posted">+ equity</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">79% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="job-card animate-fade-up delay-200">
-          <div class="job-card-top">
-            <div class="company-logo">🔷</div>
-            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
-          </div>
-          <div>
-            <div class="job-card-title">Senior Backend Architect</div>
-            <div class="job-card-company">Stripe · Austin, TX</div>
-          </div>
-          <div class="job-card-meta">
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">apartment</span> Hybrid</span>
-            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">schedule</span> Full-time</span>
-            <span class="job-meta-item">📅 Posted 5d ago</span>
-          </div>
-          <div class="job-card-chips">
-            <span class="chip">Ruby</span><span class="chip">Kafka</span><span class="chip">Microservices</span>
-          </div>
-          <div class="job-card-footer">
-            <div>
-              <div class="job-salary">$195k – $245k</div>
-              <div class="job-posted">+ RSUs</div>
-            </div>
-            <div style="display:flex; gap:var(--sp-2);">
-              <div class="match-badge"><span class="match-pct">83% Match</span></div>
-              <a href="/apply.html" class="btn btn-primary btn-sm">Apply</a>
-            </div>
-          </div>
-        </div>
-
+          <div id="feed-container"></div>
       </div>
 
-      <div style="text-align:center; margin-top: var(--sp-10);">
-        <button class="btn btn-secondary btn-lg" onclick="loadMore(this)">Load More Roles</button>
-      </div>
     </main>
   </div>
 
@@ -365,8 +386,187 @@
   </div>
 
   <script>
+    function switchMainTab(tab) {
+        document.getElementById('tab-jobs').classList.toggle('active', tab === 'jobs');
+        document.getElementById('tab-feed').classList.toggle('active', tab === 'feed');
+        document.getElementById('section-jobs').style.display = tab === 'jobs' ? 'block' : 'none';
+        document.getElementById('section-feed').style.display = tab === 'feed' ? 'block' : 'none';
+        if (tab === 'feed') fetchFeed();
+    }
+
+    async function createPost() {
+        const token = localStorage.getItem('tjc_token');
+        const content = document.getElementById('post-content').value;
+        if (!content) return;
+
+        try {
+            const res = await fetch('/posts/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content })
+            });
+            if (res.ok) {
+                document.getElementById('post-content').value = '';
+                fetchFeed();
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function fetchFeed() {
+        const token = localStorage.getItem('tjc_token');
+        try {
+            const res = await fetch('/posts/feed', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const posts = await res.json();
+                renderFeed(posts);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function renderFeed(posts) {
+        const container = document.getElementById('feed-container');
+        container.innerHTML = '';
+        posts.forEach(post => {
+            const card = document.createElement('div');
+            card.className = 'job-card';
+            card.style.marginBottom = 'var(--sp-4)';
+            card.style.cursor = 'default';
+            card.innerHTML = `
+                <div style="display:flex; gap:var(--sp-3); align-items:center; margin-bottom:var(--sp-3);">
+                    <div class="avatar-placeholder" style="width:36px;height:36px;font-size:0.8rem;">
+                        ${post.author.avatar_url ? `<img src="${post.author.avatar_url}" style="width:100%;height:100%;border-radius:50%;">` : post.author.name[0]}
+                    </div>
+                    <div>
+                        <div style="font-weight:700; font-size:0.9rem;">${post.author.name}</div>
+                        <div style="font-size:0.75rem; color:var(--on-surface-variant);">${new Date(post.created_at).toLocaleString()}</div>
+                    </div>
+                </div>
+                <div style="font-size:1rem; line-height:1.5; color:var(--on-surface);">${post.content}</div>
+                <div style="display:flex; gap:var(--sp-6); margin-top:var(--sp-4); padding-top:var(--sp-3); border-top:1px solid rgba(0,0,0,0.05); color:var(--on-surface-variant); font-size:0.9rem;">
+                    <span onclick="likePost(${post.id}, this)" style="cursor:pointer; display:flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:1.2rem;">favorite</span> ${post.likes_count}</span>
+                    <span style="cursor:pointer; display:flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:1.2rem;">chat_bubble</span> Comment</span>
+                    <span style="cursor:pointer; display:flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:1.2rem;">share</span> Share</span>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    async function likePost(postId, el) {
+        const token = localStorage.getItem('tjc_token');
+        try {
+            const res = await fetch(`/posts/${postId}/like`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                el.innerHTML = `<span class="material-symbols-outlined" style="font-size:1.2rem; color:var(--primary);">favorite</span> ${data.likes_count}`;
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function initDashboard() {
+      const token = localStorage.getItem('tjc_token');
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      try {
+        // Fetch Profile
+        const profRes = await fetch('/profile', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (profRes.ok) {
+          const user = await profRes.json();
+          document.querySelector('.sidebar-user-name').textContent = `${user.first_name} ${user.last_name}`;
+          document.querySelector('.dashboard-greeting').textContent = `Welcome back, ${user.first_name} 👋`;
+          if (document.querySelectorAll('.sidebar-stat-val')[1]) document.querySelectorAll('.sidebar-stat-val')[1].textContent = user.posts_count || 0; // Just as example
+          if (document.querySelectorAll('.sidebar-stat-val')[2]) document.querySelectorAll('.sidebar-stat-val')[2].textContent = user.followers_count || 0;
+
+          if (user.avatar_url) {
+            const avatar = document.querySelector('.avatar-placeholder');
+            avatar.innerHTML = `<img src="${user.avatar_url}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+          } else {
+             document.querySelector('.avatar-placeholder').textContent = user.first_name[0] + user.last_name[0];
+          }
+        }
+
+        // Fetch Jobs
+        const jobsRes = await fetch('/jobs', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (jobsRes.ok) {
+          const jobs = await jobsRes.json();
+          renderJobs(jobs);
+        }
+
+        // Fetch Notifications
+        const notifRes = await fetch('/notifications', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (notifRes.ok) {
+          const notifs = await notifRes.json();
+          const unread = notifs.filter(n => !n.read_flag).length;
+          const dot = document.querySelector('.notif-dot');
+          if (unread > 0) {
+            dot.style.display = 'block';
+            if (document.querySelectorAll('.badge')[3]) document.querySelectorAll('.badge')[3].textContent = unread; // Notifications badge
+          } else {
+            dot.style.display = 'none';
+          }
+        }
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderJobs(jobs) {
+      const grid = document.getElementById('jobs-grid');
+      grid.innerHTML = '';
+      if (jobs.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--on-surface-variant);">No jobs found. Try checking back later!</div>';
+        return;
+      }
+
+      jobs.forEach((job, index) => {
+        const card = document.createElement('div');
+        card.className = `job-card animate-fade-up`;
+        card.style.animationDelay = `${index * 100}ms`;
+        card.innerHTML = `
+          <div class="job-card-top">
+            <div class="company-logo">${job.category === 'Design' ? '🎨' : '🌐'}</div>
+            <span class="job-save-btn" onclick="toggleSave(this)" title="Save job">♡</span>
+          </div>
+          <div>
+            <div class="job-card-title">${job.title}</div>
+            <div class="job-card-company">${job.category} · Remote</div>
+          </div>
+          <div class="job-card-meta">
+            <span class="job-meta-item"><span class="material-symbols-outlined" style="font-size: 1.25em; vertical-align: middle;">public</span> Remote</span>
+            <span class="job-meta-item">📅 Posted ${new Date(job.created_at).toLocaleDateString()}</span>
+          </div>
+          <div class="job-card-footer">
+            <div class="job-salary">$120k – $160k</div>
+            <button onclick="applyJob(${job.id})" class="btn btn-primary btn-sm">Apply</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      document.querySelector('.jobs-count').textContent = `Showing ${jobs.length} roles`;
+    }
+
+    async function applyJob(jobId) { alert('Application submitted! Your profile is now visible to the employer.'); }
     function toggleSave(el) { el.textContent = el.textContent === '♡' ? '♥' : '♡'; el.style.color = el.textContent === '♥' ? 'var(--primary)' : ''; }
-    function loadMore(btn) { btn.textContent = 'Loading...'; setTimeout(() => { btn.textContent = 'All roles loaded'; btn.disabled = true; }, 800); }
+
+    initDashboard();
   </script>
 </body>
 </html>

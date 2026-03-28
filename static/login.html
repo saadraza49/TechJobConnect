@@ -144,6 +144,18 @@
     }
     .auth-message.error { background: rgba(239,68,68,0.1); color: #dc2626; border: 1px solid rgba(239,68,68,0.2); }
     .auth-message.success { background: rgba(34,197,94,0.1); color: #16a34a; border: 1px solid rgba(34,197,94,0.2); }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      user-select: none;
+      font-size: 20px;
+      transition: color var(--duration-fast);
+    }
+    .password-toggle:hover { color: var(--on-surface); }
   </style>
 </head>
 <body>
@@ -187,7 +199,10 @@
             <div class="form-password-row">
               <label class="form-label" for="login-password">Password</label>
             </div>
-            <input id="login-password" class="form-input" type="password" required />
+            <div style="position: relative;">
+              <input id="login-password" class="form-input" type="password" required style="padding-right: 40px;" />
+              <span class="material-symbols-outlined password-toggle" onclick="togglePassword('login-password', this)">visibility</span>
+            </div>
             <a href="#" class="forgot-link">Forgot password?</a>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Sign In →</button>
@@ -228,7 +243,10 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="signup-password">Password</label>
-            <input id="signup-password" class="form-input" type="password" required minlength="6" />
+            <div style="position: relative;">
+              <input id="signup-password" class="form-input" type="password" required minlength="6" style="padding-right: 40px;" />
+              <span class="material-symbols-outlined password-toggle" onclick="togglePassword('signup-password', this)">visibility</span>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%; margin-top: var(--sp-2);">Create Account →</button>
           <div class="auth-switch">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in</a></div>
@@ -286,6 +304,17 @@
 
     function hideMessage() {
       document.getElementById('auth-alert').style.display = 'none';
+    }
+
+    function togglePassword(inputId, iconEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        iconEl.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        iconEl.textContent = 'visibility';
+      }
     }
 
     async function handleLogin(e) {

@@ -262,49 +262,94 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", initProfile);
+
+    async function initProfile() {
       const token = localStorage.getItem('tjc_token');
-      if (!token) {
-        window.location.href = '/login.html';
-        return;
-      }
+      if (!token) { window.location.href = '/login.html'; return; }
 
       try {
         const res = await fetch('/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+          headers: { 'Authorization': `Bearer ${token}` }
         });
         
         if (res.ok) {
           const data = await res.json();
-          const fullName = `${data.first_name} ${data.last_name}`;
-          const initials = `${data.first_name.charAt(0)}${data.last_name.charAt(0)}`.toUpperCase();
-          
-          document.getElementById('profile-name').textContent = fullName;
-          document.getElementById('avatar-initials').textContent = initials;
-          
-          const rolesContainer = document.getElementById('profile-roles-container');
-          rolesContainer.innerHTML = `
-            <span class="chip chip-primary">${data.role === 'employer' ? 'Employer' : 'Job Seeker'}</span>
-            <span class="chip">${data.email}</span>
-          `;
+          renderProfile(data);
+          fetchUserPosts(data.id);
         } else {
-          localStorage.removeItem('tjc_token');
           window.location.href = '/login.html';
         }
-      } catch (err) {
-        console.error(err);
+      } catch (err) { console.error(err); }
+
+      document.querySelector('a.btn-ghost').onclick = (e) => {
+        e.preventDefault(); localStorage.removeItem('tjc_token'); window.location.href = '/login.html';
+      };
+    }
+
+    function renderProfile(user) {
+      document.getElementById('profile-name').textContent = `${user.first_name} ${user.last_name}`;
+      const initials = `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
+      const avatarEl = document.getElementById('avatar-initials');
+      if (user.avatar_url) {
+        avatarEl.innerHTML = `<img src="${user.avatar_url}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      } else {
+        avatarEl.textContent = initials;
       }
-      
-      // Handle sign out button
-      document.querySelector('a.btn-ghost').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('tjc_token');
-        window.location.href = '/login.html';
-      });
-    });
+
+      if (user.cover_url) {
+        document.querySelector('.profile-cover').style.backgroundImage = `url(${user.cover_url})`;
+        document.querySelector('.profile-cover').style.backgroundSize = 'cover';
+      }
+
+      const rolesContainer = document.getElementById('profile-roles-container');
+      rolesContainer.innerHTML = `
+        <span class="chip chip-primary">${user.role === 'Employer' ? 'Employer' : 'Job Seeker'}</span>
+        <span class="chip">${user.email}</span>
+      `;
+
+      // Update bio if there is an About section
+      // For now, let's just add it to the page if it doesn't exist or replace Placeholder
+    }
+
+    async function fetchUserPosts(userId) {
+        const token = localStorage.getItem('tjc_token');
+        try {
+            // We can reuse /posts/feed or create a specific /posts/user/{id} if needed
+            // For now, since it's a social app, let's assume feed includes own posts or we can filter
+            const res = await fetch('/posts/feed', { headers: { 'Authorization': `Bearer ${token}` } });
+            if (res.ok) {
+                const posts = await res.json();
+                const myPosts = posts.filter(p => p.author.name.includes(document.getElementById('profile-name').textContent.split(' ')[0]));
+                renderMyPosts(myPosts);
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    function renderMyPosts(posts) {
+        // Create a section for posts if it doesn't exist
+        let section = document.getElementById('my-posts-section');
+        if (!section) {
+            section = document.createElement('div');
+            section.id = 'my-posts-section';
+            section.className = 'profile-section';
+            section.innerHTML = '<div class="profile-section-header"><div class="profile-section-title">Latest Updates</div></div><div id="posts-container"></div>';
+            document.querySelector('.profile-main').appendChild(section);
+        }
+        const container = document.getElementById('posts-container');
+        container.innerHTML = posts.length ? '' : '<div style="color:var(--on-surface-variant);">No posts yet.</div>';
+        posts.forEach(post => {
+            const p = document.createElement('div');
+            p.style.padding = 'var(--sp-4) 0';
+            p.style.borderBottom = '1px solid rgba(0,0,0,0.05)';
+            p.innerHTML = `
+                <div style="font-size:0.8rem; color:var(--on-surface-variant); margin-bottom:4px;">${new Date(post.created_at).toLocaleDateString()}</div>
+                <div>${post.content}</div>
+                <div style="margin-top:8px; font-size:0.8rem; color:var(--primary);">♥ ${post.likes_count} likes</div>
+            `;
+            container.appendChild(p);
+        });
+    }
   </script>
 </body>
 </html>

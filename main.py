@@ -193,18 +193,228 @@ async def login(req: LoginRequest, db: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer", "role": user.role}
 
 @app.get("/profile")
-async def get_profile(current_user: models.User = Depends(get_current_user)):
+async def get_profile(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Also return counts for the dashboard
+    posts_count = db.query(models.Post).filter(models.Post.user_id == current_user.id).count()
+    followers_count = db.query(models.Follower).filter(models.Follower.following_id == current_user.id).count()
+    following_count = db.query(models.Follower).filter(models.Follower.follower_id == current_user.id).count()
+    
     return {
+        "id": current_user.id,
         "first_name": current_user.first_name,
         "last_name": current_user.last_name,
         "email": current_user.email,
-        "role": current_user.role
+        "role": current_user.role,
+        "bio": current_user.bio,
+        "avatar_url": current_user.avatar_url,
+        "cover_url": current_user.cover_url,
+        "posts_count": posts_count,
+        "followers_count": followers_count,
+        "following_count": following_count
     }
 
-# Example: Upload CV endpoint
-@app.post("/apply/{job_id}")
-async def apply_job(job_id: int, cv: UploadFile = File(...), cover_letter: str = None, db: Session = Depends(get_db)):
-    return {"info": f"CV {cv.filename} uploaded for job {job_id}", "status": "Applied"}
+class ProfileUpdate(BaseModel):
+    first_name: str = None
+    last_name: str = None
+    bio: str = None
+    avatar_url: str = None
+    cover_url: str = None
+
+@app.put("/profile/update")
+async def update_profile(req: ProfileUpdate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if req.first_name: current_user.first_name = req.first_name
+    if req.last_name: current_user.last_name = req.last_name
+    if req.bio: current_user.bio = req.bio
+    if req.avatar_url: current_user.avatar_url = req.avatar_url
+    if req.cover_url: current_user.cover_url = req.cover_url
+    db.commit()
+    return {"message": "Profile updated successfully"}
+
+# --- Posts & Feed ---
+class PostCreate(BaseModel):
+    content: str
+    category: str = "General"
+
+@app.post("/posts/create")
+async def create_post(req: PostCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    new_post = models.Post(user_id=current_user.id, content=req.content, category=req.category)
+    db.add(new_post)
+    db.commit()
+    return {"message": "Post created successfully"}
+
+@app.get("/posts/feed")
+async def get_feed(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Get IDs of people the user follows
+    following_ids = db.query(models.Follower.following_id).filter(models.Follower.follower_id == current_user.id).all()
+    following_ids = [id[0] for id in following_ids]
+    following_ids.append(current_user.id) # Include own posts
+    
+    posts = db.query(models.Post).filter(models.Post.user_id.in_(following_ids)).order_by(models.Post.created_at.desc()).all()
+    
+    feed = []
+    for post in posts:
+        feed.append({
+            "id": post.id,
+            "content": post.content,
+            "category": post.category,
+            "likes_count": post.likes_count,
+            "created_at": post.created_at,
+            "author": {
+                "id": post.author.id,
+                "name": f"{post.author.first_name} {post.author.last_name}",
+                "avatar_url": post.author.avatar_url
+            }
+        })
+    return feed
+
+@app.post("/posts/{post_id}/like")
+async def like_post(post_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    post.likes_count += 1
+    
+    # Notification
+    if post.user_id != current_user.id:
+        notif = models.Notification(
+            user_id=post.user_id,
+            type="like",
+            reference_id=post.id
+        )
+        db.add(notif)
+    
+    db.commit()
+    return {"message": "Post liked", "likes_count": post.likes_count}
+
+class CommentCreate(BaseModel):
+    content: str
+
+@app.post("/posts/{post_id}/comment")
+async def comment_on_post(post_id: int, req: CommentCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    new_comment = models.Comment(post_id=post_id, user_id=current_user.id, content=req.content)
+    db.add(new_comment)
+    
+    # Notification
+    if post.user_id != current_user.id:
+        notif = models.Notification(
+            user_id=post.user_id,
+            type="comment",
+            reference_id=post.id
+        )
+        db.add(notif)
+        
+    db.commit()
+    return {"message": "Comment added"}
+
+# --- Following System ---
+@app.post("/follow/{user_id}")
+async def follow_user(user_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if user_id == current_user.id:
+        raise HTTPException(status_code=400, detail="You cannot follow yourself")
+    
+    existing = db.query(models.Follower).filter(
+        models.Follower.follower_id == current_user.id,
+        models.Follower.following_id == user_id
+    ).first()
+    
+    if existing:
+        return {"message": "Already following"}
+    
+    new_follow = models.Follower(follower_id=current_user.id, following_id=user_id)
+    db.add(new_follow)
+    
+    # Notification
+    notif = models.Notification(
+        user_id=user_id,
+        type="follow",
+        reference_id=current_user.id
+    )
+    db.add(notif)
+    
+    db.commit()
+    return {"message": "Followed successfully"}
+
+@app.post("/unfollow/{user_id}")
+async def unfollow_user(user_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    follow = db.query(models.Follower).filter(
+        models.Follower.follower_id == current_user.id,
+        models.Follower.following_id == user_id
+    ).first()
+    
+    if not follow:
+        return {"message": "Not following this user"}
+    
+    db.delete(follow)
+    db.commit()
+    return {"message": "Unfollowed successfully"}
+
+# --- Jobs & Applications ---
+class JobCreate(BaseModel):
+    title: str
+    description: str
+    category: str
+
+@app.post("/jobs/create")
+async def create_job(req: JobCreate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != "Employer":
+        raise HTTPException(status_code=403, detail="Only employers can create jobs")
+    
+    new_job = models.Job(employer_id=current_user.id, title=req.title, description=req.description, category=req.category)
+    db.add(new_job)
+    db.commit()
+    return {"message": "Job posted successfully"}
+
+@app.get("/jobs")
+async def get_jobs(db: Session = Depends(get_db)):
+    jobs = db.query(models.Job).order_by(models.Job.created_at.desc()).all()
+    return jobs
+
+@app.post("/jobs/{job_id}/apply")
+async def apply_job(job_id: int, cv: UploadFile = File(...), current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if current_user.role != "Job Seeker":
+        raise HTTPException(status_code=403, detail="Only job seekers can apply for jobs")
+    
+    job = db.query(models.Job).filter(models.Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+        
+    # Save CV
+    os.makedirs("uploads/cvs", exist_ok=True)
+    file_path = f"uploads/cvs/{current_user.id}_{job_id}_{cv.filename}"
+    with open(file_path, "wb") as buffer:
+        buffer.write(await cv.read())
+    
+    new_app = models.Application(job_id=job_id, user_id=current_user.id, cv_path=file_path)
+    db.add(new_app)
+    
+    # Notification to employer
+    notif = models.Notification(
+        user_id=job.employer_id,
+        type="application",
+        reference_id=job.id
+    )
+    db.add(notif)
+    
+    db.commit()
+    return {"message": "Application submitted successfully"}
+
+# --- Notifications ---
+@app.get("/notifications")
+async def get_notifications(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    notifs = db.query(models.Notification).filter(models.Notification.user_id == current_user.id).order_by(models.Notification.created_at.desc()).all()
+    return notifs
+
+@app.post("/notifications/mark-read/{notif_id}")
+async def mark_notification_read(notif_id: int, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    notif = db.query(models.Notification).filter(models.Notification.id == notif_id, models.Notification.user_id == current_user.id).first()
+    if notif:
+        notif.read_flag = True
+        db.commit()
+    return {"message": "Notification marked as read"}
 
 # Mount the static directory for the frontend (must be last)
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
